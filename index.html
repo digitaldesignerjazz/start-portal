@@ -4,14 +4,20 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Start Portal • NexusSpace</title>
+    <meta name="description" content="Unified control center and launcher for NexusSpace — mesh networking, AI agent swarms, hardware prototypes, blockchain, and creative tools. Start, monitor, and manage your entire nexus from one beautiful interface.">
+    <meta name="theme-color" content="#0f172a">
+    
+    <!-- Open Graph / Social -->
+    <meta property="og:title" content="Start Portal • NexusSpace">
+    <meta property="og:description" content="The beautiful front door to your Nexus. Launch mesh nodes, agent swarms, Grok Launcher, and more from one place.">
+    <meta property="og:image" content="https://digitaldesignerjazz.github.io/start-portal/og-image.png">
+    <meta property="og:url" content="https://digitaldesignerjazz.github.io/start-portal">
+    <meta name="twitter:card" content="summary_large_image">
+    
     <script src="https://cdn.tailwindcss.com"></script>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
     <style>
         @import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600&amp;family=Space+Grotesk:wght@500;600&amp;display=swap');
-        
-        :root {
-            --primary: #3b82f6;
-        }
         
         body {
             font-family: 'Inter', system_ui, sans-serif;
@@ -20,59 +26,102 @@
         .font-display {
             font-family: 'Space Grotesk', 'Inter', system_ui, sans-serif;
             font-weight: 600;
+            letter-spacing: -0.03em;
         }
 
         .nexus-card {
-            transition: transform 0.2s cubic-bezier(0.4, 0, 0.2, 1), 
-                       box-shadow 0.2s cubic-bezier(0.4, 0.0, 0.2, 1);
+            transition: transform 0.2s cubic-bezier(0.4, 0.0, 0.2, 1), 
+                       box-shadow 0.2s cubic-bezier(0.4, 0.0, 0.2, 1),
+                       border-color 0.2s ease;
         }
         
         .nexus-card:hover {
-            transform: translateY(-4px);
-            box-shadow: 0 20px 25px -5px rgb(0 0 0 / 0.1), 0 8px 10px -6px rgb(0 0 0 / 0.1);
+            transform: translateY(-6px);
+            box-shadow: 0 25px 50px -12px rgb(0 0 0 / 0.25);
         }
 
         .status-dot {
             animation: pulse 2s cubic-bezier(0.4, 0, 0.6, 1) infinite;
         }
 
+        .metric-value {
+            font-variant-numeric: tabular-nums;
+        }
+
+        .glass {
+            background: rgba(15, 23, 42, 0.6);
+            backdrop-filter: blur(12px);
+        }
+
         .section-header {
-            font-family: 'Space Grotesk', 'Inter', system_ui, sans-serif;
-            letter-spacing: -0.025em;
+            font-size: 0.75rem;
+            letter-spacing: 1.5px;
+            font-weight: 600;
         }
 
         .portal-header {
             background: linear-gradient(135deg, #0f172a 0%, #1e2937 100%);
         }
+
+        .nav-active {
+            background-color: #1e2937;
+            color: white;
+            border-radius: 9999px;
+        }
+
+        .dashboard-grid {
+            scrollbar-width: thin;
+        }
     </style>
 </head>
-<body class="bg-slate-950 text-slate-200">
+<body class="bg-slate-950 text-slate-200 dark">
     <!-- Header -->
-    <header class="border-b border-slate-800 bg-slate-900">
+    <header class="border-b border-slate-800 bg-slate-900 sticky top-0 z-50">
         <div class="max-w-screen-2xl mx-auto">
-            <div class="px-8 py-6 flex items-center justify-between">
+            <div class="px-8 py-5 flex items-center justify-between">
                 <div class="flex items-center gap-x-4">
-                    <div class="w-11 h-11 bg-blue-600 rounded-2xl flex items-center justify-center">
-                        <i class="fa-solid fa-rocket text-white text-3xl"></i>
-                    </div>
-                    <div>
-                        <h1 class="text-3xl font-display tracking-tighter">Start Portal</h1>
-                        <p class="text-slate-400 text-sm -mt-1">NexusSpace Control Center</p>
+                    <div class="flex items-center gap-x-3">
+                        <div class="w-10 h-10 bg-gradient-to-br from-blue-600 to-indigo-600 rounded-2xl flex items-center justify-center shadow-inner">
+                            <i class="fa-solid fa-rocket text-white text-2xl"></i>
+                        </div>
+                        <div>
+                            <h1 class="text-3xl font-display tracking-tighter">Start Portal</h1>
+                            <p class="text-[10px] text-slate-500 -mt-1 tracking-[1px]">NEXUSSPACE CONTROL CENTER</p>
+                        </div>
                     </div>
                 </div>
                 
-                <div class="flex items-center gap-x-4">
-                    <div class="flex items-center gap-x-2 bg-slate-900 border border-slate-700 rounded-3xl px-4 py-1.5">
-                        <div class="w-2.5 h-2.5 bg-emerald-400 rounded-full animate-pulse"></div>
-                        <span class="text-sm text-emerald-400 font-medium">Connected to Nexus</span>
+                <div class="flex items-center gap-x-3">
+                    <!-- Nexus Health -->
+                    <div class="hidden md:flex items-center gap-x-2 bg-slate-900 border border-slate-700 rounded-3xl px-4 py-1.5 text-sm">
+                        <div class="flex items-center gap-x-2">
+                            <div class="w-2.5 h-2.5 bg-emerald-400 rounded-full animate-pulse"></div>
+                            <span class="font-medium text-emerald-400">Nexus Health</span>
+                        </div>
+                        <div class="font-mono text-emerald-400 font-semibold">94</div>
                     </div>
-                    
+
+                    <!-- Theme Switcher -->
+                    <div class="flex items-center bg-slate-900 border border-slate-700 rounded-3xl p-1">
+                        <button onclick="setTheme('dark')" id="theme-dark"
+                                class="px-3 py-1.5 rounded-3xl text-xs flex items-center gap-x-1.5 transition-all active:scale-95 bg-slate-800 text-white">
+                            <i class="fa-solid fa-moon text-xs"></i>
+                            <span class="hidden sm:inline text-xs">Dark</span>
+                        </button>
+                        <button onclick="setTheme('light')" id="theme-light"
+                                class="px-3 py-1.5 rounded-3xl text-xs flex items-center gap-x-1.5 transition-all active:scale-95 hover:bg-slate-800">
+                            <i class="fa-solid fa-sun text-xs"></i>
+                            <span class="hidden sm:inline text-xs">Light</span>
+                        </button>
+                    </div>
+
+                    <!-- User -->
                     <button onclick="showProfileMenu()"
                             class="flex items-center gap-x-2.5 bg-slate-900 hover:bg-slate-800 border border-slate-700 transition-colors rounded-3xl pl-2 pr-5 py-1.5">
-                        <img src="https://i.pravatar.cc/32?img=68" class="w-8 h-8 rounded-2xl ring-2 ring-slate-700" alt="User avatar">
-                        <div class="text-left">
-                            <div class="text-sm font-medium">Sven Esslinger</div>
-                            <div class="text-[10px] text-slate-500 -mt-0.5">Hannover • SuperGrok</div>
+                        <img src="https://i.pravatar.cc/32?img=68" class="w-8 h-8 rounded-2xl ring-2 ring-slate-700" alt="Sven">
+                        <div class="text-left hidden md:block">
+                            <div class="text-sm font-medium leading-none">Sven Esslinger</div>
+                            <div class="text-[10px] text-slate-500">Hannover</div>
                         </div>
                     </button>
                 </div>
@@ -80,363 +129,529 @@
         </div>
     </header>
 
-    <div class="max-w-screen-2xl mx-auto px-8 pt-8 pb-12">
+    <div class="max-w-screen-2xl mx-auto px-8 pt-8 pb-16">
         
-        <!-- Hero / Status Overview -->
-        <div class="mb-10">
-            <div class="flex items-end justify-between mb-4">
+        <!-- Welcome + Metrics -->
+        <div class="mb-8">
+            <div class="flex flex-col lg:flex-row lg:items-end lg:justify-between gap-y-4">
                 <div>
-                    <h2 class="text-4xl font-display tracking-tighter">Good evening, Sven.</h2>
-                    <p class="text-slate-400 mt-1">The Nexus is ready. What would you like to start today?</p>
+                    <h2 class="text-5xl font-display tracking-tighter">Good evening, Sven.</h2>
+                    <p class="text-slate-400 mt-2 max-w-md">Everything is connected. The Nexus is stable and ready for action.</p>
                 </div>
-                <div class="text-right">
-                    <div class="text-emerald-400 text-sm font-medium flex items-center justify-end gap-x-2">
-                        <i class="fa-solid fa-check-circle"></i>
-                        <span>12 components healthy</span>
+                
+                <!-- Top Metrics -->
+                <div class="flex flex-wrap gap-4">
+                    <div class="glass border border-slate-700 rounded-3xl px-5 py-3 flex items-center gap-x-4">
+                        <div>
+                            <div class="text-xs text-slate-500">ACTIVE COMPONENTS</div>
+                            <div class="text-3xl font-semibold font-mono tracking-tighter metric-value">14</div>
+                        </div>
+                        <div class="text-emerald-400">
+                            <i class="fa-solid fa-check-double text-xl"></i>
+                        </div>
                     </div>
-                    <div class="text-xs text-slate-500">Last sync: just now</div>
+                    
+                    <div class="glass border border-slate-700 rounded-3xl px-5 py-3 flex items-center gap-x-4">
+                        <div>
+                            <div class="text-xs text-slate-500">AGENTS ONLINE</div>
+                            <div class="text-3xl font-semibold font-mono tracking-tighter metric-value">27</div>
+                        </div>
+                        <div class="text-violet-400">
+                            <i class="fa-solid fa-robot text-xl"></i>
+                        </div>
+                    </div>
+                    
+                    <div class="glass border border-slate-700 rounded-3xl px-5 py-3 flex items-center gap-x-4">
+                        <div>
+                            <div class="text-xs text-slate-500">LAST ACTIVITY</div>
+                            <div class="text-lg font-medium">2m ago</div>
+                        </div>
+                    </div>
                 </div>
             </div>
         </div>
 
         <!-- Quick Actions -->
-        <div class="mb-10">
-            <h3 class="text-sm uppercase tracking-[1.5px] text-slate-500 mb-3 px-1">QUICK ACTIONS</h3>
+        <div class="mb-8">
+            <div class="flex items-center justify-between mb-3 px-1">
+                <div class="section-header text-slate-400">QUICK ACTIONS</div>
+            </div>
             <div class="flex flex-wrap gap-3">
                 <button onclick="quickStartAll()"
-                        class="flex items-center gap-x-3 bg-blue-600 hover:bg-blue-500 transition-all active:scale-[0.985] text-white px-6 py-3.5 rounded-3xl font-semibold shadow-lg shadow-blue-950/50">
-                    <i class="fa-solid fa-play mr-1"></i>
+                        class="group flex items-center gap-x-3 bg-blue-600 hover:bg-blue-500 active:bg-blue-700 transition-all px-7 py-[13px] rounded-3xl font-semibold text-sm shadow-lg shadow-blue-950/60 active:scale-[0.985]">
+                    <i class="fa-solid fa-play mr-1 group-active:scale-90 transition-transform"></i>
                     <span>Start Full Nexus Stack</span>
                 </button>
                 
                 <button onclick="startMeshOnly()"
-                        class="flex items-center gap-x-3 bg-slate-800 hover:bg-slate-700 border border-slate-700 transition-colors px-6 py-3.5 rounded-3xl font-medium">
+                        class="flex items-center gap-x-3 bg-slate-800 hover:bg-slate-700 border border-slate-700 active:bg-slate-600 transition-colors px-6 py-[13px] rounded-3xl font-medium text-sm active:scale-[0.985]">
                     <i class="fa-solid fa-network-wired"></i>
                     <span>Start Mesh Node</span>
                 </button>
                 
                 <button onclick="startAgentSwarm()"
-                        class="flex items-center gap-x-3 bg-slate-800 hover:bg-slate-700 border border-slate-700 transition-colors px-6 py-3.5 rounded-3xl font-medium">
+                        class="flex items-center gap-x-3 bg-slate-800 hover:bg-slate-700 border border-slate-700 active:bg-slate-600 transition-colors px-6 py-[13px] rounded-3xl font-medium text-sm active:scale-[0.985]">
                     <i class="fa-solid fa-robot"></i>
                     <span>Launch Agent Swarm</span>
+                </button>
+                
+                <button onclick="launchGrokLauncher()"
+                        class="flex items-center gap-x-3 bg-amber-600 hover:bg-amber-500 transition-colors px-6 py-[13px] rounded-3xl font-medium text-sm text-white active:scale-[0.985]">
+                    <i class="fa-solid fa-rocket"></i>
+                    <span>Launch Grok Launcher</span>
                 </button>
             </div>
         </div>
 
-        <!-- Main Grid -->
-        <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-6">
+        <!-- Main Dashboard Grid -->
+        <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 2xl:grid-cols-5 gap-5">
             
             <!-- Mesh Networking -->
-            <div class="nexus-card bg-slate-900 border border-slate-800 rounded-3xl p-6 flex flex-col">
-                <div class="flex items-start justify-between mb-4">
+            <div class="nexus-card bg-slate-900 border border-slate-700 hover:border-emerald-500/40 rounded-3xl p-6 flex flex-col">
+                <div class="flex items-start justify-between mb-5">
                     <div class="flex items-center gap-x-3">
-                        <div class="w-10 h-10 bg-emerald-500/10 text-emerald-400 rounded-2xl flex items-center justify-center">
-                            <i class="fa-solid fa-network-wired text-xl"></i>
+                        <div class="w-9 h-9 bg-emerald-500/10 text-emerald-400 rounded-2xl flex items-center justify-center">
+                            <i class="fa-solid fa-network-wired text-lg"></i>
                         </div>
                         <div>
-                            <div class="font-semibold text-lg">Mesh Networking</div>
-                            <div class="text-xs text-emerald-400">xMesh • NovaNet • QNET</div>
+                            <div class="font-semibold">Mesh Networking</div>
+                            <div class="text-[10px] text-emerald-400 tracking-wider">xMESH • NOVANET • QNET</div>
                         </div>
                     </div>
-                    <div class="flex items-center gap-x-1.5 text-emerald-400 text-xs font-medium">
-                        <div class="w-2 h-2 bg-emerald-400 rounded-full status-dot"></div>
+                    <div class="px-3 py-1 rounded-2xl bg-emerald-500/10 text-emerald-400 text-xs font-medium flex items-center gap-x-1.5">
+                        <div class="w-1.5 h-1.5 bg-emerald-400 rounded-full animate-pulse"></div>
                         <span>ONLINE</span>
                     </div>
                 </div>
                 
-                <div class="text-sm text-slate-400 mb-5 flex-1">
-                    3 nodes running • Yggdrasil healthy • 47 peers
+                <div class="text-sm text-slate-400 mb-auto">
+                    3 nodes • 47 peers • Yggdrasil stable
                 </div>
                 
-                <div class="flex gap-2 mt-auto">
+                <div class="flex gap-2 mt-6">
                     <button onclick="startComponent('mesh')" 
-                            class="flex-1 bg-emerald-600 hover:bg-emerald-500 transition-colors text-white text-sm font-semibold py-2.5 rounded-2xl flex items-center justify-center gap-x-2">
+                            class="flex-1 bg-emerald-600 hover:bg-emerald-500 active:bg-emerald-700 transition-all text-white text-sm font-semibold py-2.5 rounded-2xl flex items-center justify-center gap-x-2 active:scale-[0.985]">
                         <i class="fa-solid fa-play text-xs"></i>
-                        <span>Start / Restart</span>
+                        <span>Manage Nodes</span>
                     </button>
                     <button onclick="openDocs('mesh-networking')" 
-                            class="px-4 bg-slate-800 hover:bg-slate-700 border border-slate-700 transition-colors text-sm font-medium rounded-2xl flex items-center justify-center">
-                        <i class="fa-solid fa-book"></i>
+                            class="px-4 bg-slate-800 hover:bg-slate-700 border border-slate-700 transition-colors text-sm font-medium rounded-2xl flex items-center justify-center active:scale-95">
+                        <i class="fa-solid fa-book text-xs"></i>
                     </button>
                 </div>
             </div>
 
-            <!-- AI Agents -->
-            <div class="nexus-card bg-slate-900 border border-slate-800 rounded-3xl p-6 flex flex-col">
-                <div class="flex items-start justify-between mb-4">
+            <!-- AI Agent Swarms -->
+            <div class="nexus-card bg-slate-900 border border-slate-700 hover:border-violet-500/40 rounded-3xl p-6 flex flex-col">
+                <div class="flex items-start justify-between mb-5">
                     <div class="flex items-center gap-x-3">
-                        <div class="w-10 h-10 bg-violet-500/10 text-violet-400 rounded-2xl flex items-center justify-center">
-                            <i class="fa-solid fa-robot text-xl"></i>
+                        <div class="w-9 h-9 bg-violet-500/10 text-violet-400 rounded-2xl flex items-center justify-center">
+                            <i class="fa-solid fa-robot text-lg"></i>
                         </div>
                         <div>
-                            <div class="font-semibold text-lg">AI Agent Swarms</div>
-                            <div class="text-xs text-violet-400">Grok • Liaura • Ara</div>
+                            <div class="font-semibold">AI Agent Swarms</div>
+                            <div class="text-[10px] text-violet-400 tracking-wider">GROK • LIAURA • ARA</div>
                         </div>
                     </div>
-                    <div class="flex items-center gap-x-1.5 text-emerald-400 text-xs font-medium">
-                        <div class="w-2 h-2 bg-emerald-400 rounded-full status-dot"></div>
-                        <span>3 SWARMS</span>
+                    <div class="px-3 py-1 rounded-2xl bg-emerald-500/10 text-emerald-400 text-xs font-medium flex items-center gap-x-1.5">
+                        <div class="w-1.5 h-1.5 bg-emerald-400 rounded-full animate-pulse"></div>
+                        <span>3 ACTIVE</span>
                     </div>
                 </div>
                 
-                <div class="text-sm text-slate-400 mb-5 flex-1">
-                    2 active swarms • 14 agents total • Long-term memory: 87%
+                <div class="text-sm text-slate-400 mb-auto">
+                    27 agents running • Memory coherence 87%
                 </div>
                 
-                <div class="flex gap-2 mt-auto">
+                <div class="flex gap-2 mt-6">
                     <button onclick="startComponent('agents')" 
-                            class="flex-1 bg-violet-600 hover:bg-violet-500 transition-colors text-white text-sm font-semibold py-2.5 rounded-2xl flex items-center justify-center gap-x-2">
+                            class="flex-1 bg-violet-600 hover:bg-violet-500 active:bg-violet-700 transition-all text-white text-sm font-semibold py-2.5 rounded-2xl flex items-center justify-center gap-x-2 active:scale-[0.985]">
                         <i class="fa-solid fa-play text-xs"></i>
                         <span>Launch Swarm</span>
                     </button>
                     <button onclick="openDocs('ai-agents')" 
-                            class="px-4 bg-slate-800 hover:bg-slate-700 border border-slate-700 transition-colors text-sm font-medium rounded-2xl flex items-center justify-center">
-                        <i class="fa-solid fa-book"></i>
+                            class="px-4 bg-slate-800 hover:bg-slate-700 border border-slate-700 transition-colors text-sm font-medium rounded-2xl flex items-center justify-center active:scale-95">
+                        <i class="fa-solid fa-book text-xs"></i>
                     </button>
                 </div>
             </div>
 
-            <!-- Prototypes -->
-            <div class="nexus-card bg-slate-900 border border-slate-800 rounded-3xl p-6 flex flex-col">
-                <div class="flex items-start justify-between mb-4">
+            <!-- Grok Launcher (Featured) -->
+            <div class="nexus-card bg-slate-900 border border-amber-500/30 hover:border-amber-400 rounded-3xl p-6 flex flex-col ring-1 ring-amber-500/10">
+                <div class="flex items-start justify-between mb-5">
                     <div class="flex items-center gap-x-3">
-                        <div class="w-10 h-10 bg-amber-500/10 text-amber-400 rounded-2xl flex items-center justify-center">
-                            <i class="fa-solid fa-microchip text-xl"></i>
+                        <div class="w-9 h-9 bg-amber-500/10 text-amber-400 rounded-2xl flex items-center justify-center">
+                            <i class="fa-solid fa-rocket text-lg"></i>
                         </div>
                         <div>
-                            <div class="font-semibold text-lg">Hardware Prototypes</div>
-                            <div class="text-xs text-amber-400">Grok Launcher • Soilnova</div>
+                            <div class="font-semibold flex items-center gap-x-2">
+                                Grok Launcher
+                                <span class="text-[9px] px-1.5 py-px rounded bg-amber-500/10 text-amber-400 font-mono">RUST + EGUI</span>
+                            </div>
+                            <div class="text-[10px] text-amber-400 tracking-wider">DESKTOP • EDGE • MONITORING</div>
                         </div>
                     </div>
-                    <div class="flex items-center gap-x-1.5 text-amber-400 text-xs font-medium">
-                        <div class="w-2 h-2 bg-amber-400 rounded-full status-dot"></div>
-                        <span>READY</span>
-                    </div>
+                    <div class="px-3 py-1 rounded-2xl bg-amber-500/10 text-amber-400 text-xs font-medium">READY</div>
                 </div>
                 
-                <div class="text-sm text-slate-400 mb-5 flex-1">
-                    Grok Launcher (Rust + egui) • 4 hardware concepts in progress
+                <div class="text-sm text-slate-400 mb-auto">
+                    Native Rust + egui interface. Launch &amp; monitor the full Nexus from your desktop.
                 </div>
                 
-                <div class="flex gap-2 mt-auto">
-                    <button onclick="startComponent('prototypes')" 
-                            class="flex-1 bg-amber-600 hover:bg-amber-500 transition-colors text-white text-sm font-semibold py-2.5 rounded-2xl flex items-center justify-center gap-x-2">
+                <div class="flex gap-2 mt-6">
+                    <button onclick="launchGrokLauncher()" 
+                            class="flex-1 bg-amber-600 hover:bg-amber-500 active:bg-amber-700 transition-all text-white text-sm font-semibold py-2.5 rounded-2xl flex items-center justify-center gap-x-2 active:scale-[0.985]">
                         <i class="fa-solid fa-play text-xs"></i>
-                        <span>Launch Grok Launcher</span>
+                        <span>Launch Desktop App</span>
                     </button>
-                    <button onclick="openDocs('prototypes')" 
-                            class="px-4 bg-slate-800 hover:bg-slate-700 border border-slate-700 transition-colors text-sm font-medium rounded-2xl flex items-center justify-center">
-                        <i class="fa-solid fa-book"></i>
+                    <button onclick="openDocs('prototypes/grok-launcher')" 
+                            class="px-4 bg-slate-800 hover:bg-slate-700 border border-slate-700 transition-colors text-sm font-medium rounded-2xl flex items-center justify-center active:scale-95">
+                        <i class="fa-solid fa-book text-xs"></i>
                     </button>
                 </div>
             </div>
 
             <!-- Blockchain -->
-            <div class="nexus-card bg-slate-900 border border-slate-800 rounded-3xl p-6 flex flex-col">
-                <div class="flex items-start justify-between mb-4">
+            <div class="nexus-card bg-slate-900 border border-slate-700 hover:border-sky-500/40 rounded-3xl p-6 flex flex-col">
+                <div class="flex items-start justify-between mb-5">
                     <div class="flex items-center gap-x-3">
-                        <div class="w-10 h-10 bg-sky-500/10 text-sky-400 rounded-2xl flex items-center justify-center">
-                            <i class="fa-solid fa-link text-xl"></i>
+                        <div class="w-9 h-9 bg-sky-500/10 text-sky-400 rounded-2xl flex items-center justify-center">
+                            <i class="fa-solid fa-link text-lg"></i>
                         </div>
                         <div>
-                            <div class="font-semibold text-lg">Blockchain Layer</div>
-                            <div class="text-xs text-sky-400">XCoin • QCoin • QNET Bridge</div>
+                            <div class="font-semibold">Blockchain Layer</div>
+                            <div class="text-[10px] text-sky-400 tracking-wider">XCOIN • QCOIN • BRIDGE</div>
                         </div>
                     </div>
-                    <div class="flex items-center gap-x-1.5 text-slate-400 text-xs font-medium">
-                        <div class="w-2 h-2 bg-slate-400 rounded-full"></div>
+                    <div class="px-3 py-1 rounded-2xl bg-slate-600/30 text-slate-400 text-xs font-medium flex items-center gap-x-1.5">
+                        <div class="w-1.5 h-1.5 bg-slate-400 rounded-full"></div>
                         <span>STANDBY</span>
                     </div>
                 </div>
                 
-                <div class="text-sm text-slate-400 mb-5 flex-1">
-                    Testnet ready • Bridge architecture in progress
+                <div class="text-sm text-slate-400 mb-auto">
+                    Testnet ready • QNET bridge in development
                 </div>
                 
-                <div class="flex gap-2 mt-auto">
+                <div class="flex gap-2 mt-6">
                     <button onclick="startComponent('blockchain')" 
-                            class="flex-1 bg-sky-600 hover:bg-sky-500 transition-colors text-white text-sm font-semibold py-2.5 rounded-2xl flex items-center justify-center gap-x-2">
+                            class="flex-1 bg-sky-600 hover:bg-sky-500 active:bg-sky-700 transition-all text-white text-sm font-semibold py-2.5 rounded-2xl flex items-center justify-center gap-x-2 active:scale-[0.985]">
                         <i class="fa-solid fa-play text-xs"></i>
                         <span>Start Node</span>
                     </button>
                     <button onclick="openDocs('blockchain')" 
-                            class="px-4 bg-slate-800 hover:bg-slate-700 border border-slate-700 transition-colors text-sm font-medium rounded-2xl flex items-center justify-center">
-                        <i class="fa-solid fa-book"></i>
+                            class="px-4 bg-slate-800 hover:bg-slate-700 border border-slate-700 transition-colors text-sm font-medium rounded-2xl flex items-center justify-center active:scale-95">
+                        <i class="fa-solid fa-book text-xs"></i>
                     </button>
                 </div>
             </div>
 
             <!-- Monitoring -->
-            <div class="nexus-card bg-slate-900 border border-slate-800 rounded-3xl p-6 flex flex-col">
-                <div class="flex items-start justify-between mb-4">
+            <div class="nexus-card bg-slate-900 border border-slate-700 hover:border-teal-500/40 rounded-3xl p-6 flex flex-col">
+                <div class="flex items-start justify-between mb-5">
                     <div class="flex items-center gap-x-3">
-                        <div class="w-10 h-10 bg-teal-500/10 text-teal-400 rounded-2xl flex items-center justify-center">
-                            <i class="fa-solid fa-chart-line text-xl"></i>
+                        <div class="w-9 h-9 bg-teal-500/10 text-teal-400 rounded-2xl flex items-center justify-center">
+                            <i class="fa-solid fa-chart-line text-lg"></i>
                         </div>
                         <div>
-                            <div class="font-semibold text-lg">Monitoring</div>
-                            <div class="text-xs text-teal-400">Unified Observability</div>
+                            <div class="font-semibold">Unified Monitoring</div>
+                            <div class="text-[10px] text-teal-400 tracking-wider">PROMETHEUS • GRAFANA</div>
                         </div>
                     </div>
-                    <div class="flex items-center gap-x-1.5 text-emerald-400 text-xs font-medium">
-                        <div class="w-2 h-2 bg-emerald-400 rounded-full status-dot"></div>
-                        <span>ACTIVE</span>
+                    <div class="px-3 py-1 rounded-2xl bg-emerald-500/10 text-emerald-400 text-xs font-medium flex items-center gap-x-1.5">
+                        <div class="w-1.5 h-1.5 bg-emerald-400 rounded-full animate-pulse"></div>
+                        <span>LIVE</span>
                     </div>
                 </div>
                 
-                <div class="text-sm text-slate-400 mb-5 flex-1">
-                    Prometheus + Grafana • Custom Nexus dashboards live
+                <div class="text-sm text-slate-400 mb-auto">
+                    Prometheus + Grafana • Real-time metrics
                 </div>
                 
-                <div class="flex gap-2 mt-auto">
+                <div class="flex gap-2 mt-6">
                     <button onclick="openMonitoring()" 
-                            class="flex-1 bg-teal-600 hover:bg-teal-500 transition-colors text-white text-sm font-semibold py-2.5 rounded-2xl flex items-center justify-center gap-x-2">
+                            class="flex-1 bg-teal-600 hover:bg-teal-500 active:bg-teal-700 transition-all text-white text-sm font-semibold py-2.5 rounded-2xl flex items-center justify-center gap-x-2 active:scale-[0.985]">
                         <i class="fa-solid fa-external-link-alt text-xs"></i>
                         <span>Open Dashboards</span>
                     </button>
                     <button onclick="openDocs('tools/monitoring')" 
-                            class="px-4 bg-slate-800 hover:bg-slate-700 border border-slate-700 transition-colors text-sm font-medium rounded-2xl flex items-center justify-center">
-                        <i class="fa-solid fa-book"></i>
+                            class="px-4 bg-slate-800 hover:bg-slate-700 border border-slate-700 transition-colors text-sm font-medium rounded-2xl flex items-center justify-center active:scale-95">
+                        <i class="fa-solid fa-book text-xs"></i>
                     </button>
                 </div>
             </div>
 
-            <!-- Creative -->
-            <div class="nexus-card bg-slate-900 border border-slate-800 rounded-3xl p-6 flex flex-col">
-                <div class="flex items-start justify-between mb-4">
+            <!-- Creative Layer -->
+            <div class="nexus-card bg-slate-900 border border-slate-700 hover:border-pink-500/40 rounded-3xl p-6 flex flex-col">
+                <div class="flex items-start justify-between mb-5">
                     <div class="flex items-center gap-x-3">
-                        <div class="w-10 h-10 bg-pink-500/10 text-pink-400 rounded-2xl flex items-center justify-center">
-                            <i class="fa-solid fa-palette text-xl"></i>
+                        <div class="w-9 h-9 bg-pink-500/10 text-pink-400 rounded-2xl flex items-center justify-center">
+                            <i class="fa-solid fa-palette text-lg"></i>
                         </div>
                         <div>
-                            <div class="font-semibold text-lg">Creative Layer</div>
-                            <div class="text-xs text-pink-400">Roleplay • Stories • Music</div>
+                            <div class="font-semibold">Creative Layer</div>
+                            <div class="text-[10px] text-pink-400 tracking-wider">ROLEPLAY • STORIES • SUNO</div>
                         </div>
                     </div>
-                    <div class="flex items-center gap-x-1.5 text-emerald-400 text-xs font-medium">
-                        <div class="w-2 h-2 bg-emerald-400 rounded-full status-dot"></div>
+                    <div class="px-3 py-1 rounded-2xl bg-emerald-500/10 text-emerald-400 text-xs font-medium flex items-center gap-x-1.5">
+                        <div class="w-1.5 h-1.5 bg-emerald-400 rounded-full animate-pulse"></div>
                         <span>ACTIVE</span>
                     </div>
                 </div>
                 
-                <div class="text-sm text-slate-400 mb-5 flex-1">
-                    304-turn immersive session active • New Suno track ready
+                <div class="text-sm text-slate-400 mb-auto">
+                    304-turn session • New music ready
                 </div>
                 
-                <div class="flex gap-2 mt-auto">
+                <div class="flex gap-2 mt-6">
                     <button onclick="startComponent('creative')" 
-                            class="flex-1 bg-pink-600 hover:bg-pink-500 transition-colors text-white text-sm font-semibold py-2.5 rounded-2xl flex items-center justify-center gap-x-2">
+                            class="flex-1 bg-pink-600 hover:bg-pink-500 active:bg-pink-700 transition-all text-white text-sm font-semibold py-2.5 rounded-2xl flex items-center justify-center gap-x-2 active:scale-[0.985]">
                         <i class="fa-solid fa-play text-xs"></i>
-                        <span>Open Creative Studio</span>
+                        <span>Open Studio</span>
                     </button>
                     <button onclick="openDocs('creative')" 
-                            class="px-4 bg-slate-800 hover:bg-slate-700 border border-slate-700 transition-colors text-sm font-medium rounded-2xl flex items-center justify-center">
-                        <i class="fa-solid fa-book"></i>
+                            class="px-4 bg-slate-800 hover:bg-slate-700 border border-slate-700 transition-colors text-sm font-medium rounded-2xl flex items-center justify-center active:scale-95">
+                        <i class="fa-solid fa-book text-xs"></i>
                     </button>
                 </div>
             </div>
 
         </div>
 
-        <!-- Footer / Links -->
-        <div class="mt-12 flex flex-col md:flex-row items-center justify-between text-xs text-slate-500 gap-y-3">
-            <div>
-                NexusSpace • Start Portal v0.1 • Hannover, Germany
+        <!-- Recent Activity -->
+        <div class="mt-10">
+            <div class="flex items-center justify-between mb-4 px-1">
+                <div class="section-header text-slate-400">RECENT ACTIVITY</div>
+                <button onclick="refreshActivity()" class="text-xs flex items-center gap-x-1.5 text-slate-400 hover:text-white transition-colors">
+                    <i class="fa-solid fa-sync-alt text-xs"></i>
+                    <span>Refresh</span>
+                </button>
             </div>
-            <div class="flex items-center gap-x-5">
-                <a href="https://github.com/digitaldesignerjazz/nexusspace" target="_blank" class="hover:text-slate-300 transition-colors">NexusSpace Repo</a>
-                <a href="#" onclick="showSettings()" class="hover:text-slate-300 transition-colors">Settings</a>
-                <a href="#" class="hover:text-slate-300 transition-colors">Documentation</a>
+            
+            <div id="activity-feed" class="space-y-2 text-sm">
+                <!-- Populated by JS -->
             </div>
         </div>
 
     </div>
 
+    <footer class="border-t border-slate-800 py-6">
+        <div class="max-w-screen-2xl mx-auto px-8 flex flex-col md:flex-row items-center justify-between gap-y-2 text-xs text-slate-500">
+            <div>
+                NexusSpace • Start Portal v0.2 • Hannover, Germany
+            </div>
+            <div class="flex items-center gap-x-5">
+                <a href="https://github.com/digitaldesignerjazz/nexusspace" target="_blank" class="hover:text-slate-300 transition-colors">NexusSpace</a>
+                <a href="https://github.com/digitaldesignerjazz/start-portal" target="_blank" class="hover:text-slate-300 transition-colors">Source</a>
+                <button onclick="showSettings()" class="hover:text-slate-300 transition-colors">Settings</button>
+            </div>
+        </div>
+    </footer>
+
     <script>
-        function tailwindInit() {
+        // Tailwind script
+        function initTailwind() {
             document.documentElement.style.setProperty('--accent', '#3b82f6');
         }
-        
+
+        // Theme Switcher
+        function setTheme(theme) {
+            const html = document.documentElement;
+            const darkBtn = document.getElementById('theme-dark');
+            const lightBtn = document.getElementById('theme-light');
+
+            if (theme === 'dark') {
+                html.classList.add('dark');
+                html.classList.remove('light');
+                darkBtn.classList.add('bg-slate-800', 'text-white');
+                lightBtn.classList.remove('bg-slate-800', 'text-white');
+            } else {
+                html.classList.remove('dark');
+                html.classList.add('light');
+                lightBtn.classList.add('bg-slate-800', 'text-white');
+                darkBtn.classList.remove('bg-slate-800', 'text-white');
+                document.body.style.background = '#f8fafc';
+                document.body.style.color = '#0f172a';
+            }
+            localStorage.setItem('start-portal-theme', theme);
+        }
+
+        function loadTheme() {
+            const saved = localStorage.getItem('start-portal-theme') || 'dark';
+            setTheme(saved);
+        }
+
+        // Activity Feed
+        function loadActivityFeed() {
+            const feed = document.getElementById('activity-feed');
+            const activities = [
+                { time: '2m ago', icon: 'fa-robot', text: 'Agent swarm "Nova-7" completed long-term memory sync', color: 'violet' },
+                { time: '14m ago', icon: 'fa-network-wired', text: 'Mesh node restarted successfully (Yggdrasil)', color: 'emerald' },
+                { time: '47m ago', icon: 'fa-rocket', text: 'Grok Launcher v0.1 binary built successfully', color: 'amber' },
+                { time: '1h ago', icon: 'fa-palette', text: 'New Suno track generated for immersive scenario', color: 'pink' }
+            ];
+
+            feed.innerHTML = activities.map(act => `
+                <div class="flex items-start gap-x-3 bg-slate-900 border border-slate-700 rounded-2xl px-4 py-3 text-sm">
+                    <div class="mt-0.5 text-${act.color}-400">
+                        <i class="fa-solid ${act.icon}"></i>
+                    </div>
+                    <div class="flex-1 min-w-0">
+                        <div class="text-slate-300">${act.text}</div>
+                        <div class="text-xs text-slate-500 mt-0.5">${act.time}</div>
+                    </div>
+                </div>
+            `).join('');
+        }
+
+        function refreshActivity() {
+            const feed = document.getElementById('activity-feed');
+            feed.style.opacity = '0.3';
+            setTimeout(() => {
+                loadActivityFeed();
+                feed.style.transition = 'opacity 0.3s ease';
+                feed.style.opacity = '1';
+            }, 180);
+        }
+
+        // Start Component with better feedback
         function startComponent(type) {
             const messages = {
-                'mesh': 'Starting mesh networking stack... (Docker + Yggdrasil + monitoring)',
-                'agents': 'Launching multi-agent swarm with persistent memory...',
-                'prototypes': 'Launching Grok Launcher (Rust + egui)...',
-                'blockchain': 'Starting blockchain test node and bridge services...',
-                'creative': 'Opening Creative Studio and loading current immersive session...'
+                'mesh': 'Initiating mesh node restart and health check...',
+                'agents': 'Spawning new agent swarm with persistent memory context...',
+                'blockchain': 'Starting blockchain test node and QNET bridge services...',
+                'creative': 'Loading Creative Studio and current immersive session...'
             };
             
-            const msg = messages[type] || 'Starting component...';
-            
-            // Visual feedback
-            const toast = document.createElement('div');
-            toast.className = `fixed bottom-6 right-6 bg-slate-800 border border-slate-700 text-white px-6 py-4 rounded-3xl shadow-2xl flex items-center gap-x-3 z-50`;
-            toast.innerHTML = `
-                <i class="fa-solid fa-check-circle text-emerald-400"></i>
-                <div>
-                    <div class="font-medium">${msg}</div>
-                    <div class="text-xs text-slate-400 mt-0.5">This will be wired to real actions soon</div>
-                </div>
-            `;
-            document.body.appendChild(toast);
-            
+            showToast(messages[type] || 'Starting component...', type);
+        }
+
+        function launchGrokLauncher() {
+            showToast('Launching Grok Launcher (Rust + egui desktop app)...', 'amber');
+            // In future: could trigger local binary or show download instructions
             setTimeout(() => {
-                toast.style.transition = 'all 0.3s ease';
-                toast.style.opacity = '0';
-                setTimeout(() => toast.remove(), 300);
-            }, 4200);
+                window.open('https://github.com/digitaldesignerjazz/nexusspace/tree/main/prototypes/grok-launcher', '_blank');
+            }, 1600);
         }
-        
+
         function quickStartAll() {
-            const btns = document.querySelectorAll('button');
-            btns.forEach((btn, i) => {
-                setTimeout(() => {
-                    if (btn.textContent.includes('Start') || btn.textContent.includes('Launch')) {
-                        btn.click();
-                    }
-                }, i * 180);
-            });
+            showToast('Starting full Nexus stack (Mesh + Agents + Monitoring)...', 'blue');
+            setTimeout(() => startComponent('mesh'), 600);
+            setTimeout(() => startComponent('agents'), 1400);
         }
-        
+
         function startMeshOnly() {
             startComponent('mesh');
         }
-        
+
         function startAgentSwarm() {
             startComponent('agents');
         }
-        
+
         function openDocs(section) {
             window.open(`https://github.com/digitaldesignerjazz/nexusspace/tree/main/${section}`, '_blank');
         }
-        
+
         function openMonitoring() {
-            alert('Monitoring dashboards will open here (Grafana integration coming soon).\n\nFor now this links to the tools/monitoring directory in NexusSpace.');
-            window.open('https://github.com/digitaldesignerjazz/nexusspace/tree/main/tools/monitoring', '_blank');
+            showToast('Opening monitoring dashboards...', 'teal');
+            setTimeout(() => {
+                window.open('https://github.com/digitaldesignerjazz/nexusspace/tree/main/tools/monitoring', '_blank');
+            }, 900);
         }
-        
+
+        function showToast(message, accent = 'emerald') {
+            const colors = {
+                emerald: 'border-emerald-500/30 bg-emerald-950/60 text-emerald-300',
+                violet: 'border-violet-500/30 bg-violet-950/60 text-violet-300',
+                amber: 'border-amber-500/30 bg-amber-950/60 text-amber-300',
+                blue: 'border-blue-500/30 bg-blue-950/60 text-blue-300',
+                teal: 'border-teal-500/30 bg-teal-950/60 text-teal-300',
+                pink: 'border-pink-500/30 bg-pink-950/60 text-pink-300'
+            };
+
+            const toast = document.createElement('div');
+            toast.className = `fixed bottom-6 right-6 max-w-sm border ${colors[accent] || colors.emerald} px-5 py-4 rounded-3xl shadow-2xl flex items-start gap-x-3 z-[9999]`;
+            toast.innerHTML = `
+                <div class="mt-0.5"><i class="fa-solid fa-check-circle"></i></div>
+                <div class="text-sm leading-snug">${message}</div>
+            `;
+            document.body.appendChild(toast);
+
+            setTimeout(() => {
+                toast.style.transition = 'all 0.35s cubic-bezier(0.4,0,1,1)';
+                toast.style.opacity = '0';
+                setTimeout(() => toast.parentNode.removeChild(toast), 300);
+            }, 3800);
+        }
+
         function showProfileMenu() {
-            alert('Profile & Settings menu will be implemented in the dynamic version.\n\nCurrent user: Sven Esslinger (Hannover)');
+            showToast('Profile menu will be expanded in the dynamic version. Current user: Sven Esslinger (Hannover).');
         }
-        
+
         function showSettings() {
-            alert('Start Portal Settings\n\n• Theme & Accent Color\n• Default Launch Profiles\n• Integration Endpoints\n• Agent Permissions\n\n(Full settings UI coming in next iteration)');
+            const modal = document.createElement('div');
+            modal.className = 'fixed inset-0 bg-black/70 flex items-center justify-center z-[9999]';
+            modal.innerHTML = `
+                <div class="bg-slate-900 border border-slate-700 rounded-3xl w-full max-w-md mx-4 p-8">
+                    <div class="flex justify-between items-center mb-6">
+                        <div class="font-semibold text-xl">Start Portal Settings</div>
+                        <button onclick="this.closest('.fixed').remove()" class="text-slate-400 hover:text-white text-2xl leading-none">&times;</button>
+                    </div>
+                    
+                    <div class="space-y-6 text-sm">
+                        <div>
+                            <div class="text-slate-400 mb-1.5 text-xs tracking-wider">DEFAULT LAUNCH PROFILE</div>
+                            <select class="w-full bg-slate-800 border border-slate-700 rounded-2xl px-4 py-2.5 text-sm">
+                                <option>Full Nexus Stack</option>
+                                <option>Mesh + Agents Only</option>
+                                <option>Development Mode</option>
+                            </select>
+                        </div>
+                        
+                        <div class="flex items-center justify-between">
+                            <div>Enable real-time updates</div>
+                            <div class="w-11 h-6 bg-emerald-600 rounded-full relative"><div class="absolute right-0.5 top-0.5 w-5 h-5 bg-white rounded-full shadow"></div></div>
+                        </div>
+                    </div>
+                    
+                    <div class="mt-8 pt-6 border-t border-slate-700 flex justify-end">
+                        <button onclick="this.closest('.fixed').remove()" class="px-6 py-2.5 text-sm font-medium bg-white text-slate-950 rounded-2xl hover:bg-slate-200 active:scale-[0.985] transition-all">Save Preferences</button>
+                    </div>
+                </div>
+            `;
+            document.body.appendChild(modal);
         }
-        
+
         // Keyboard shortcuts
         document.addEventListener('keydown', function(e) {
-            if (e.metaKey && e.key === '/') {
+            if ((e.metaKey || e.ctrlKey) && e.key === '/') {
                 e.preventDefault();
-                const firstStartBtn = document.querySelector('button');
-                if (firstStartBtn) firstStartBtn.click();
+                const btn = document.querySelector('button');
+                if (btn) btn.click();
+            }
+            if (e.key.toLowerCase() === '?') {
+                showSettings();
             }
         });
-        
-        // Boot
-        window.onload = function() {
-            tailwindInit();
-            console.log('%c[Start Portal] Static prototype initialized. Ready for dynamic evolution.', 'color:#64748b');
-        };
+
+        // Initialize everything
+        function init() {
+            initTailwind();
+            loadTheme();
+            loadActivityFeed();
+            
+            // Easter egg: click logo to show health
+            const logo = document.querySelector('.fa-rocket');
+            if (logo) {
+                logo.parentElement.addEventListener('click', () => {
+                    showToast('All systems nominal. Nexus coherence at 94%.', 'emerald');
+                });
+            }
+
+            console.log('%c[Start Portal v0.2] Improved dashboard initialized successfully.', 'color:#64748b');
+        }
+
+        window.onload = init;
     </script>
 </body>
 </html>
