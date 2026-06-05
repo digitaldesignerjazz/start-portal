@@ -1,0 +1,32 @@
+# Start Portal .gitignore
+
+# General
+.DS_Store
+Thumbs.db
+*.log
+.env
+.env.local
+secrets/
+
+# Rust
+/target/
+**/*.rs.bk
+Cargo.lock
+
+# Python
+__pycache__/
+*.py[cod]
+.venv/
+venv/
+
+# Node / Frontend build
+node_modules/
+dist/
+build/
+
+# Docker
+.dockerignore
+
+# IDE
+.idea/
+.vscode/
